@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "867318303129",
+    "firebase_url": "https://myblog-d4cba.firebaseio.com",
+    "project_id": "myblog-d4cba",
+    "storage_bucket": "myblog-d4cba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867318303129:android:00df21e6aa3c524c",
+        "android_client_info": {
+          "package_name": "com.example.jou.gameproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867318303129-iu80fg2vbcn52o09qdbgpif76ecrn6a5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jou.gameproject",
+            "certificate_hash": "74a2f5fdf517a76ab49fa32a6cf51fb9553349d8"
+          }
+        },
+        {
+          "client_id": "867318303129-gi82vj44ej0d666n7acb3kr34tosngj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8Dx7w7ZY5IiTYD6INRWq3jx3X7ZQzs3c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867318303129-gi82vj44ej0d666n7acb3kr34tosngj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
