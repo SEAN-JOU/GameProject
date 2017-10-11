@@ -14,7 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView bloglist;
     RecyclerView.Adapter firebaseadapter;
     DatabaseReference root;
+    List<Blog> blogs;
 
 
     @Override
@@ -32,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
         bloglist = (RecyclerView)findViewById(R.id.recycle);
         bloglist.setHasFixedSize(true);
         bloglist.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        blogs = new ArrayList<>();
+
+        for(int i =0; i<=10;i++){
+            Blog blog =new Blog("heading"+(i+1),"you are so fat","");
+            blogs.add(blog);
+        }
+        firebaseadapter =new Myadapter(blogs,this);
+        bloglist.setAdapter(firebaseadapter);
 
 
         root = FirebaseDatabase.getInstance().getReference().child("child");
@@ -63,10 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        firebaseadapter = new Myadapter();
-        bloglist.setAdapter(firebaseadapter);
     }
+
 
     String title,description;
     private void append_chat_conversation(DataSnapshot dataSnapshot) {
@@ -92,8 +102,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(it);
         }
         return  super.onOptionsItemSelected(item);
-    }
-
-
-}
+    }}
 

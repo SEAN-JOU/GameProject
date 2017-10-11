@@ -30,7 +30,7 @@ public class Main2Activity extends AppCompatActivity {
     Uri imageuri = null;
     ProgressDialog progressdialog;
     StorageReference filepath;
-
+    Uri downloaduri;
     DatabaseReference database;
 
     StorageReference storage;//宣告storage的權限
@@ -84,7 +84,7 @@ public class Main2Activity extends AppCompatActivity {
         final String title_val =title_edit.getText().toString();
         final String description_val=description_edit.getText().toString();
 
-        if(!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(description_val)){
+        if(!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(description_val) && imageuri != null){
 
 
                 filepath = storage.child("blog_images").child(imageuri.getLastPathSegment());
@@ -93,7 +93,7 @@ public class Main2Activity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        @SuppressWarnings("VisibleForTests") Uri downloaduri = taskSnapshot.getDownloadUrl();
+                        downloaduri = taskSnapshot.getDownloadUrl();
 
                         DatabaseReference newpost =database.push();
 

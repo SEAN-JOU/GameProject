@@ -1,5 +1,7 @@
 package com.example.jou.gameproject;
 
+import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,9 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
 
 
 public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
+
+    private List<Blog> blogs;
+    private Context context;
+
+    public Myadapter(List<Blog>blogs, Context context){
+
+        this.blogs=blogs;
+        this.context=context;
+
+    }
 
     public Myadapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -20,12 +33,15 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
     }
     @Override
     public void onBindViewHolder(Myadapter.ViewHolder holder, int position) {
+        Blog blog =blogs.get(position);
 
+        holder.adatitle.setText(blog.getTitle());
+        holder.adadescription.setText(blog.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return blogs.size();
     }
 
 
