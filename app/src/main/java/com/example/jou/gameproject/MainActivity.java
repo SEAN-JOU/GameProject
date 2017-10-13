@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +14,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView bloglist;
     RecyclerView.Adapter firebaseadapter;
-    DatabaseReference root;
+
     List<Blog> blogs;
+    String d,t,c;
 
 
     @Override
@@ -35,18 +38,12 @@ public class MainActivity extends AppCompatActivity {
         bloglist = (RecyclerView)findViewById(R.id.recycle);
         bloglist.setHasFixedSize(true);
         bloglist.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-        blogs = new ArrayList<>();
-
-        for(int i =0; i<=10;i++){
-            Blog blog =new Blog("heading"+(i+1),"you are so fat","");
-            blogs.add(blog);
-        }
-        firebaseadapter =new Myadapter(blogs,this);
         bloglist.setAdapter(firebaseadapter);
 
 
-        root = FirebaseDatabase.getInstance().getReference().child("child");
+
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("blog");
+
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                append_chat_conversation(dataSnapshot);
+
             }
 
             @Override
@@ -73,22 +70,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+
+            }});
+
+
     }
 
 
-    String title,description;
     private void append_chat_conversation(DataSnapshot dataSnapshot) {
 
         Iterator i =dataSnapshot.getChildren().iterator();
-        while (i.hasNext()){
-            title = (String)((DataSnapshot)i.next()).getValue();
-            description =(String)((DataSnapshot)i.next()).getValue();
-
-        }
-
+        while (i.hasNext())  {
+        t = (String)((DataSnapshot)i.next()).getValue();
+        d =(String)((DataSnapshot)i.next()).getValue();
+        c =(String)((DataSnapshot)i.next()).getValue();
+        Blog blog =new Blog(t,c,"");
+        blogs = new ArrayList<>();
+        blogs.add(blog);
+        firebaseadapter =new Myadapter(blogs,this);
+        bloglist.setAdapter(firebaseadapter);}
     }
+
 
 
     public  boolean onCreateOptionsMenu(Menu menu){

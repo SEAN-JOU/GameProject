@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "867318303129-uk3qv0hfqd15737l4gbe872gbvq52d4a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jou.gameproject",
+            "certificate_hash": "04898e9fb0109a9e83d6464c5cff27b3a95e9774"
+          }
+        },
+        {
           "client_id": "867318303129-iu80fg2vbcn52o09qdbgpif76ecrn6a5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
