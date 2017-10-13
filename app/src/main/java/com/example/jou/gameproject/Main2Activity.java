@@ -40,7 +40,7 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        storage = FirebaseStorage.getInstance().getReference();//
+        storage = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance().getReference().child("blog");
         progressdialog =new ProgressDialog(this);
         imageselect =(ImageButton)findViewById(R.id.imageselect);
@@ -75,6 +75,7 @@ public class Main2Activity extends AppCompatActivity {
 
         }
     }
+
 
     private void startposting(){
 

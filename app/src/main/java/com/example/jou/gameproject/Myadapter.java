@@ -17,6 +17,7 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
     private List<Blog> blogs;
     private Context context;
 
+
     public Myadapter(List<Blog>blogs, Context context){
 
         this.blogs=blogs;
