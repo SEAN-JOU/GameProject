@@ -1,13 +1,15 @@
 package com.example.jou.gameproject;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,13 +40,15 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
 
         holder.adatitle.setText(blog.getTitle());
         holder.adadescription.setText(blog.getDescription());
+        Picasso.with(context)
+                .load(blog.getImage())
+                .into(holder.adaimage);
     }
 
     @Override
     public int getItemCount() {
         return blogs.size();
     }
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,6 +59,7 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             adadescription = itemView.findViewById(R.id.adadescription);
             adaimage = itemView.findViewById(R.id.adaimage);
             adatitle = itemView.findViewById(R.id.adatitle);
@@ -62,8 +67,7 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
         public void setTitle(String title){
             adatitle.setText(title);
         }
-        public void setAdadescription(String description){
-            adadescription.setText(description);
-        }
+        public void setAdadescription(String description){adadescription.setText(description);}
+        public void setImage(String Image){adadescription.setText(Image);}
     }
 }

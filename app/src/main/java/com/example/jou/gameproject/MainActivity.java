@@ -1,37 +1,36 @@
 package com.example.jou.gameproject;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.StringTokenizer;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView bloglist;
     RecyclerView.Adapter firebaseadapter;
-
     List<Blog> blogs;
-    String d,t,c;
-    TextView txv;
+    String tx,im,dc;
+    final int REQUEST_EXTERNAL_STORAGE = 321;
 
 
     @Override
@@ -43,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         bloglist.setHasFixedSize(true);
         bloglist.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         bloglist.setAdapter(firebaseadapter);
-        txv=(TextView)findViewById(R.id.txv);
-
+        setPermission();
 
         DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("blog");
         root.addChildEventListener(new ChildEventListener() {
@@ -55,9 +53,12 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                append_chat_conversation(dataSnapshot);
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                append_chat_conversation(dataSnapshot);
             }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
@@ -65,18 +66,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }});}
-    private void append_chat_conversation(DataSnapshot dataSnapshot) {
+        private void append_chat_conversation(DataSnapshot dataSnapshot) {
 
         Iterator i =dataSnapshot.getChildren().iterator();
         while (i.hasNext())  {
-            t = (String)((DataSnapshot)i.next()).getValue();
-            d =(String)((DataSnapshot)i.next()).getValue();
-            c =(String)((DataSnapshot)i.next()).getValue();
-            Blog blog =new Blog(t,c,"");
+            tx = (String)((DataSnapshot)i.next()).getValue();
+            im =(String)((DataSnapshot)i.next()).getValue();
+            dc =(String)((DataSnapshot)i.next()).getValue();
+            Blog blog =new Blog(tx,im,dc);
             blogs.add(blog);
             firebaseadapter =new Myadapter(blogs,this);
             bloglist.setAdapter(firebaseadapter);
-        }}
+        }
+        bloglist.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+
+
+                return false;
+            }});
+
+        }
 
 
     public  boolean onCreateOptionsMenu(Menu menu){
@@ -90,5 +101,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(it);
         }
         return  super.onOptionsItemSelected(item);
+    }
+
+    public void setPermission(){
+    int permission = ActivityCompat.checkSelfPermission(MainActivity.this,
+            WRITE_EXTERNAL_STORAGE);
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+        //未取得權限，向使用者要求允許權
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE},
+                REQUEST_EXTERNAL_STORAGE);
     }}
+        //已有權限，可進行檔案存取
+
+
+
+
+}
 

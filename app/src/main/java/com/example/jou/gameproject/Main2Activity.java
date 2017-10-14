@@ -32,7 +32,6 @@ public class Main2Activity extends AppCompatActivity {
     StorageReference filepath;
     Uri downloaduri;
     DatabaseReference database;
-
     StorageReference storage;//宣告storage的權限
 
     @Override

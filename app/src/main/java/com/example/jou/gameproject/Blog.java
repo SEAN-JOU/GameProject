@@ -12,7 +12,7 @@ public class Blog {
     public Blog()
     {}
 
-    public Blog(String title, String description, String image) {
+    public Blog(String title,String image, String description) {
         this.title = title;
         this.description = description;
         this.image = image;
@@ -34,9 +34,7 @@ public class Blog {
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
-    }
+    public String getImage() {return image;}
 
     public void setImage(String image) {
         this.image = image;
