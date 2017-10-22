@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -95,21 +96,23 @@ public class Main2Activity extends AppCompatActivity {
 
                         downloaduri = taskSnapshot.getDownloadUrl();
 
-                        DatabaseReference newpost =database.push();
+                        DatabaseReference newpost =database.push().child(String.valueOf(MainActivity.ni));
 
                         newpost.child("title").setValue(title_val);
                         newpost.child("description").setValue(description_val);
                         newpost.child("image").setValue(downloaduri.toString());
-
+                        MainActivity.ni++;
                         progressdialog.dismiss();
 
                         Intent it = new Intent();
                         it.setClass(Main2Activity.this,MainActivity.class);
                         startActivity(it);
 
-                    }});
-
-
+                    }});}
+        else{
+            progressdialog.dismiss();
+            Toast.makeText(Main2Activity.this,"請輸入正確資料",Toast.LENGTH_LONG).show();
         }
+
     }
 }

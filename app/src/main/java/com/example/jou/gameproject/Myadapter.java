@@ -1,23 +1,30 @@
 package com.example.jou.gameproject;
 
-import android.content.Context;
-import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+        import android.content.Context;
+        import android.support.v7.widget.RecyclerView;
+        import android.view.Gravity;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ImageView;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.squareup.picasso.Picasso;
+        import java.util.List;
 
-import java.util.List;
 
+public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder>  {
 
-public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
-
-    private List<Blog> blogs;
-    private Context context;
+    List<Blog> blogs;
+    Context context;
+    DatabaseReference root;
+    DataSnapshot ddd;
+    Toast ttt;
 
 
     public Myadapter(List<Blog>blogs, Context context){
@@ -37,13 +44,22 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
     @Override
     public void onBindViewHolder(Myadapter.ViewHolder holder, int position) {
         Blog blog =blogs.get(position);
-
         holder.adatitle.setText(blog.getTitle());
         holder.adadescription.setText(blog.getDescription());
         Picasso.with(context)
                 .load(blog.getImage())
                 .into(holder.adaimage);
+
+        holder.linearlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               root = FirebaseDatabase.getInstance().getReference().child("blog");
+               root.removeValue();
+            }});
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -51,10 +67,13 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
     }
 
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView adatitle,adadescription;
         public ImageView adaimage;
+        public LinearLayout linearlayout;
 
 
         public ViewHolder(View itemView) {
@@ -63,10 +82,11 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder> {
             adadescription = itemView.findViewById(R.id.adadescription);
             adaimage = itemView.findViewById(R.id.adaimage);
             adatitle = itemView.findViewById(R.id.adatitle);
+            linearlayout=itemView.findViewById(R.id.linearlayout);
         }
-        public void setTitle(String title){
-            adatitle.setText(title);
-        }
+
+
+        public void setTitle(String title){adatitle.setText(title);}
         public void setAdadescription(String description){adadescription.setText(description);}
         public void setImage(String Image){adadescription.setText(Image);}
     }
