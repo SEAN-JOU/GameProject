@@ -21,12 +21,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
+
 public class MainActivity extends AppCompatActivity {
 
+    private final int REQUEST_PERMISSION_CAMERA = 101;
     RecyclerView bloglist;
     RecyclerView.Adapter firebaseadapter;
     List<Blog> blogs;
@@ -44,8 +47,23 @@ public class MainActivity extends AppCompatActivity {
         bloglist.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         bloglist.setAdapter(firebaseadapter);
         setPermission();
+        setCamera();
+
 
     }
+
+    private void setCamera() {
+
+        int camerapermission = ActivityCompat.checkSelfPermission(MainActivity.this, CAMERA);
+
+        if(camerapermission != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{CAMERA},
+                    REQUEST_PERMISSION_CAMERA);
+
+        }
+    }
+
     protected void onResume(){
         super.onResume();
 
@@ -108,17 +126,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPermission(){
-    int permission = ActivityCompat.checkSelfPermission(MainActivity.this,
-            WRITE_EXTERNAL_STORAGE);
-                if (permission != PackageManager.PERMISSION_GRANTED) {
+
+        int permission = ActivityCompat.checkSelfPermission(MainActivity.this, WRITE_EXTERNAL_STORAGE);
+
+
+
+       if (permission != PackageManager.PERMISSION_GRANTED) {
         //未取得權限，向使用者要求允許權
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE},
                 REQUEST_EXTERNAL_STORAGE);
-    }}
+
+       }}
+
+}
         //已有權限，可進行檔案存取
 
 
 
-
-}
 
