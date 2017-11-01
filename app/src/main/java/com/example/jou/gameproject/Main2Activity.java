@@ -96,12 +96,11 @@ public class Main2Activity extends AppCompatActivity {
 
                         downloaduri = taskSnapshot.getDownloadUrl();
 
-                        DatabaseReference newpost =database.push().child(String.valueOf(MainActivity.ni));
+                        DatabaseReference newpost =database.push();
 
                         newpost.child("title").setValue(title_val);
                         newpost.child("description").setValue(description_val);
                         newpost.child("image").setValue(downloaduri.toString());
-                        MainActivity.ni++;
                         progressdialog.dismiss();
 
                         Intent it = new Intent();

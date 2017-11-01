@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     List<Blog> blogs;
     String tx,im,dc;
     final int REQUEST_EXTERNAL_STORAGE = 321;
-    static int ni=1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +97,12 @@ public class MainActivity extends AppCompatActivity {
 
         public void append_chat_conversation(DataSnapshot dataSnapshot) {
 
-        Iterator i =dataSnapshot.getChildren().iterator().next().getChildren().iterator();
+        Iterator i =dataSnapshot.getChildren().iterator()/*.next().getChildren().iterator()*/;
         while (i.hasNext())  {
             try{
-            tx = (String)((DataSnapshot)i.next()).getValue();
+            dc = (String)((DataSnapshot)i.next()).getValue();
             im =(String)((DataSnapshot)i.next()).getValue();
-            dc =(String)((DataSnapshot)i.next()).getValue();
+            tx =(String)((DataSnapshot)i.next()).getValue();
             Blog blog =new Blog(tx,im,dc);
             blogs.add(blog);
             firebaseadapter =new Myadapter(blogs,this);
@@ -129,13 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
         int permission = ActivityCompat.checkSelfPermission(MainActivity.this, WRITE_EXTERNAL_STORAGE);
 
-
-
        if (permission != PackageManager.PERMISSION_GRANTED) {
         //未取得權限，向使用者要求允許權
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE},
                 REQUEST_EXTERNAL_STORAGE);
-
        }}
 
 }
