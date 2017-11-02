@@ -21,11 +21,9 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder>  {
     List<Blog> blogs;
     Context context;
     DatabaseReference root;
-    DataSnapshot ddd;
-    Toast ttt;
 
 
-    public Myadapter(List<Blog>blogs, Context context){
+    public Myadapter(List<Blog> blogs, Context context){
 
         this.blogs=blogs;
         this.context=context;
@@ -48,24 +46,18 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder>  {
                 .load(blog.getImage())
                 .into(holder.adaimage);
 
-        holder.linearlayout.setOnClickListener(new View.OnClickListener() {
+        holder.adaimage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view) {
+                root = FirebaseDatabase.getInstance().getReference().child("blog");
+                root.removeValue();
 
-               root = FirebaseDatabase.getInstance().getReference().child("blog");
-               root.removeValue();
-            }});
-    }
-
-
-
+                return false;
+            }});}
     @Override
     public int getItemCount() {
         return blogs.size();
     }
-
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -83,9 +75,7 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.ViewHolder>  {
             linearlayout=itemView.findViewById(R.id.linearlayout);
         }
 
-
         public void setTitle(String title){adatitle.setText(title);}
         public void setAdadescription(String description){adadescription.setText(description);}
         public void setImage(String Image){adadescription.setText(Image);}
-    }
-}
+    }}

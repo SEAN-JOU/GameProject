@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
@@ -32,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSION_CAMERA = 101;
     RecyclerView bloglist;
     RecyclerView.Adapter firebaseadapter;
-    List<Blog> blogs;
+    private List<Blog> blogs;
     String tx,im,dc;
     final int REQUEST_EXTERNAL_STORAGE = 321;
+    Blog blog;
 
 
     @Override
@@ -44,30 +46,21 @@ public class MainActivity extends AppCompatActivity {
         blogs = new ArrayList<>();
         bloglist = (RecyclerView)findViewById(R.id.recycle);
         bloglist.setHasFixedSize(true);
-        bloglist.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         bloglist.setAdapter(firebaseadapter);
+        bloglist.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         setPermission();
         setCamera();
-
-
+        blogs.clear();
     }
-
-    private void setCamera() {
-
-        int camerapermission = ActivityCompat.checkSelfPermission(MainActivity.this, CAMERA);
-
-        if(camerapermission != PackageManager.PERMISSION_GRANTED){
-
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{CAMERA},
-                    REQUEST_PERMISSION_CAMERA);
-
-        }
+    protected  void onStart(){
+        super.onStart();
+        blogs.clear();
     }
 
     protected void onResume(){
         super.onResume();
 
-        DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("blog");
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("blog");
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -76,12 +69,10 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                append_chat_conversation(dataSnapshot);
 
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                append_chat_conversation(dataSnapshot);
 
             }
             @Override
@@ -91,26 +82,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-            }});
-    }
+            }});}
 
 
         public void append_chat_conversation(DataSnapshot dataSnapshot) {
 
-        Iterator i =dataSnapshot.getChildren().iterator()/*.next().getChildren().iterator()*/;
-        while (i.hasNext())  {
-            try{
-            dc = (String)((DataSnapshot)i.next()).getValue();
-            im =(String)((DataSnapshot)i.next()).getValue();
-            tx =(String)((DataSnapshot)i.next()).getValue();
-            Blog blog =new Blog(tx,im,dc);
-            blogs.add(blog);
-            firebaseadapter =new Myadapter(blogs,this);
-            bloglist.setAdapter(firebaseadapter);
-            firebaseadapter.notifyDataSetChanged();}
-            catch (Exception e){
-                Log.d("123","123");
-            }}}
+        Iterator i =dataSnapshot.getChildren().iterator();
+            while (i.hasNext()){
+                try{
+                dc = (String) ((DataSnapshot) i.next()).getValue();
+                im = (String) ((DataSnapshot) i.next()).getValue();
+                tx = (String) ((DataSnapshot) i.next()).getValue();
+                blog = new Blog(tx, im, dc);
+                blogs.add(blog);
+                firebaseadapter =new Myadapter(blogs,this);
+                bloglist.setAdapter(firebaseadapter);
+                firebaseadapter.notifyDataSetChanged();
+                }
+                catch (Exception e){
+                    Log.d("123","123");
+                }}}
 
     public  boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -135,7 +126,16 @@ public class MainActivity extends AppCompatActivity {
                 REQUEST_EXTERNAL_STORAGE);
        }}
 
-}
+    public void setCamera() {
+
+        int camerapermission = ActivityCompat.checkSelfPermission(MainActivity.this, CAMERA);
+
+        if(camerapermission != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{CAMERA},
+                    REQUEST_PERMISSION_CAMERA);
+
+        }}}
         //已有權限，可進行檔案存取
 
 

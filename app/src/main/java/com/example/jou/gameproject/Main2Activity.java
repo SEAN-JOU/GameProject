@@ -41,7 +41,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         storage = FirebaseStorage.getInstance().getReference();
-        database = FirebaseDatabase.getInstance().getReference().child("blog");
+        database = FirebaseDatabase.getInstance().getReference("blog");
         progressdialog =new ProgressDialog(this);
         imageselect =(ImageButton)findViewById(R.id.imageselect);
         title_edit =(EditText)findViewById(R.id.title_edit);
